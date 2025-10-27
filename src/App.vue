@@ -13,9 +13,9 @@
       />
     </div>
 
-    <div class="resultados">
-      <p :style="colorEstilo">Fahrenheit: {{ fahrenheit.toFixed(2) }} °F</p>
-      <p :style="colorEstilo">Kelvin: {{ kelvin.toFixed(2) }} K</p>
+    <div class="resultados" v-if="celsius !== '' && celsius !== null">
+       <p :style="colorEstilo">Fahrenheit: {{ fahrenheit.toFixed(2) }} °F</p>
+       <p :style="colorEstilo">Kelvin: {{ kelvin.toFixed(2) }} K</p>
     </div>
 
     <hr />
@@ -28,21 +28,22 @@
 export default {
   name: 'App',
   data() {
-    return { celsius: 0 }
+    return { celsius: '' }
   },
   computed: {
-    fahrenheit() { return this.celsius * 9/5 + 32 },
-
-    kelvin() { return this.celsius + 273.15 },
-
+    fahrenheit() { return this.celsius * 9 / 5 + 32 },
+    kelvin() { return parseFloat(this.celsius) + 273.15 },
     colorEstilo() {
-      if (this.celsius <= 0) return { color: 'blue' }
-      if (this.celsius > 0 && this.celsius < 15) return { color: 'magenta' }
+      const val = parseFloat(this.celsius)
+      if (isNaN(val)) return {}
+      if (val <= 0) return { color: 'blue' }
+      if (val > 0 && val < 15) return { color: 'magenta' }
       return { color: 'red' }
     }
   }
 }
 </script>
+
 
 <style>
 body { font-family: Arial, sans-serif; margin: 30px; }
